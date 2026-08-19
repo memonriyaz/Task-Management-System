@@ -7,13 +7,14 @@
   "license": "MIT",
   "scripts": {
     "build": "nest build",
+    "build:render": "prisma generate && prisma db push --accept-data-loss && nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "prisma:generate": "prisma generate",
-    "prisma:push": "prisma db push",
+    "prisma:push": "prisma db push --accept-data-loss",
     "prisma:seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
