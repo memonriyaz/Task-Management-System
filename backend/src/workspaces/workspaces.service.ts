@@ -16,7 +16,7 @@ import * as crypto from 'crypto';
 
 @Injectable()
 export class WorkspacesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async findAllForUser(userId: string) {
     let memberships = await this.prisma.workspaceMember.findMany({
@@ -394,15 +394,15 @@ export class WorkspacesService {
           const memberSuccessor = adminSuccessor
             ? null
             : await tx.workspaceMember.findFirst({
-                where: {
-                  workspaceId,
-                  role: WorkspaceRole.MEMBER,
-                  status: 'ACTIVE',
-                  userId: { not: targetUserId },
-                },
-                orderBy: { joinedAt: 'asc' },
-                include: { user: true },
-              });
+              where: {
+                workspaceId,
+                role: WorkspaceRole.MEMBER,
+                status: 'ACTIVE',
+                userId: { not: targetUserId },
+              },
+              orderBy: { joinedAt: 'asc' },
+              include: { user: true },
+            });
 
           const successor = adminSuccessor || memberSuccessor;
 
@@ -533,6 +533,7 @@ export class WorkspacesService {
         });
       }
 
+      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
       return {
         id: updated.id,
         email: updated.email,
@@ -541,7 +542,7 @@ export class WorkspacesService {
         expiresAt: updated.expiresAt,
         workspaceName: updated.workspace.name,
         token: updated.token,
-        inviteUrl: `http://localhost:3000/invite/${updated.token}`,
+        inviteUrl: `${frontendUrl}/invite/${updated.token}`,
       };
     }
 
@@ -573,6 +574,7 @@ export class WorkspacesService {
       });
     }
 
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
     return {
       id: invitation.id,
       email: invitation.email,
@@ -581,7 +583,7 @@ export class WorkspacesService {
       expiresAt: invitation.expiresAt,
       workspaceName: invitation.workspace.name,
       token: invitation.token,
-      inviteUrl: `http://localhost:3000/invite/${invitation.token}`,
+      inviteUrl: `${frontendUrl}/invite/${invitation.token}`,
     };
   }
 
