@@ -181,8 +181,8 @@ npm run dev
 ### Backend (`backend/.env`)
 ```env
 PORT=4000
-DATABASE_URL="file:./dev.db"
-JWT_SECRET="pyramid-super-secret-jwt-key-2026"
+DATABASE_URL="postgresql://username:password@hostname:5432/database_name?sslmode=require"
+JWT_SECRET="your-super-secret-jwt-key-change-in-production"
 FRONTEND_URL="http://localhost:3000"
 ```
 
