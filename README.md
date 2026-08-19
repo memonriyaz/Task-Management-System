@@ -234,16 +234,10 @@ The complete, hands-on analysis for **Part 2 – Product Understanding (AbleSpac
 2. **Key UX/UI & Functionality Enhancements Identified**:
    - **Resizable / Collapsible Panels**: Replaced rigid fixed widths with draggable dividers to display long IEP goal targets without horizontal scrolling.
    - **Horizontal Space Utilization**: Replaced single-column board cards with responsive multi-column grid layouts.
-   - **Goal Effort Badges**: Added data-type indicators (`Tally`, `Checklist`, `Prompt`, `Scale`) on goal cards before opening.
+   - **Multi-Student Split-Screen View**: Enables simultaneous data collection during group therapy sessions.
    - **Filter Modal Clarity**: Separated table column visibility controls from record value filters.
    - **Consistent Paywall UX**: Fixed inconsistent *"Performance Summary"* access rules across Info and Stats tabs.
    - **Primary Action Differentiation**: Styled *"Take Data"* (active session) distinctively from *"View Data"* (read-only) to avoid mis-clicks.
 
 ---
 
-## 💡 Intentional Engineering Decisions
-
-1. **Strict TypeScript & 0 Build Warnings**: Verified with `npx tsc --noEmit` across both frontend and backend directories.
-2. **Clean Codebase**: Removed all dead comments, unused UI boilerplate, and unnecessary logs for production readiness.
-3. **No Window Alerts**: Replaced all native browser `alert()` and `confirm()` dialogs with custom accessible modal dialogs (`ConfirmDialog.tsx`).
-4. **Optimistic Updates with Background Reconciliation**: Kanban drag-and-drop and comment postings update the UI immediately while reconciling with the backend server.
