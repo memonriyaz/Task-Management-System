@@ -191,50 +191,17 @@ export const AuthScreen: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-screen bg-[#FDFDFD] dark:bg-[#121212] flex items-center justify-center p-4 overflow-hidden select-none font-sans">
-
-      <div className="absolute top-[28%] left-[52%] -translate-x-1/2 flex items-center justify-center w-12 h-12 rounded-full overflow-hidden border-2 border-white shadow-2xl z-10 animate-bounce duration-1000">
-        <img
-          src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
-          alt="Avatar"
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-      <div className="absolute top-[42%] left-[63%] flex items-center justify-center w-11 h-11 rounded-full bg-[#3F332B] text-white font-bold text-[15px] border-2 border-white shadow-2xl z-10">
-        N
-      </div>
-
-      <div className="absolute top-[39%] right-[5%] flex items-center justify-center w-12 h-12 rounded-full bg-[#E57A44] border-2 border-white shadow-2xl z-10">
-        <span className="text-xl">🦁</span>
-      </div>
-
-      <div className="absolute bottom-[18%] right-[22%] flex items-center gap-0.5 z-10">
-        <div className="w-10 h-10 rounded-full bg-[#4CAF50] text-white font-bold flex items-center justify-center border-2 border-white shadow-xl">
-          A
-        </div>
-        <div className="w-10 h-10 rounded-full bg-[#D32F2F] text-white font-bold flex items-center justify-center -ml-3 border-2 border-white shadow-xl">
-          A
-        </div>
-        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-xl -ml-3">
-          <img
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80"
-            alt="Avatar"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
-
-      <div className="absolute top-[30%] flex items-center gap-2">
-        <div className="w-6 h-6 rounded-[6px] bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-[11px]">
+    <div className="relative min-h-screen w-screen bg-white dark:bg-[#121214] flex flex-col items-center justify-center p-4 overflow-hidden select-none font-sans">
+      <div className="flex items-center gap-2 mb-6 animate-in fade-in">
+        <div className="w-8 h-8 rounded-xl bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-black text-[14px] shadow-sm">
           ▲
         </div>
-        <span className="font-bold text-[15px] text-black dark:text-white tracking-tight">
+        <span className="font-bold text-[18px] text-black dark:text-white tracking-tight">
           Pyramid
         </span>
       </div>
 
-      <div className="w-full max-w-[420px] bg-white dark:bg-[#1E1E1E] rounded-3xl p-8 sm:p-10 shadow-xl border border-gray-100 dark:border-gray-800 flex flex-col items-center text-center z-20 mt-14">
+      <div className="w-full max-w-[420px] bg-white dark:bg-[#1E1E20] rounded-3xl p-8 sm:p-10 shadow-2xl border border-gray-100 dark:border-gray-800 flex flex-col items-center text-center z-20">
         <h1 className="text-[22px] sm:text-[24px] font-extrabold text-black dark:text-white mb-2 tracking-tight">
           Let&apos;s get back on track
         </h1>
