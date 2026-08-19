@@ -77,11 +77,33 @@ export default function InvitePage() {
     }
   };
 
-  const handleGoogleAuth = (targetEmail?: string) => {
+  const loadGoogleScript = (): Promise<boolean> => {
+    if (typeof window === 'undefined') return Promise.resolve(false);
+    if ((window as any).google?.accounts?.oauth2) return Promise.resolve(true);
+
+    return new Promise((resolve) => {
+      const existing = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
+      if (existing) {
+        existing.addEventListener('load', () => resolve(true));
+        setTimeout(() => resolve(Boolean((window as any).google?.accounts?.oauth2)), 800);
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+
+  const handleGoogleAuth = async (targetEmail?: string) => {
     setAuthModalError('');
     setIsAuthSubmitting(true);
 
-    if (typeof window !== 'undefined' && (window as any).google?.accounts?.oauth2) {
+    const isLoaded = await loadGoogleScript();
+    if (isLoaded && (window as any).google?.accounts?.oauth2) {
       try {
         const client = (window as any).google.accounts.oauth2.initTokenClient({
           client_id:

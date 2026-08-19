@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import { ThemeProvider } from '../contexts/ThemeContext';
 import { AuthProvider } from '../contexts/AuthContext';
@@ -34,6 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jakarta.variable} font-sans`}>
       <body className="h-screen w-screen overflow-hidden">
+        <Script src="https://accounts.google.com/gsi/client" strategy="afterInteractive" />
         <AuthProvider>
           <ThemeProvider>
             <BoardProvider>{children}</BoardProvider>
