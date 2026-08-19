@@ -137,6 +137,12 @@ export class AuthService {
       where: { email: userEmail },
     });
 
+    if (user && user.password && !credential) {
+      throw new UnauthorizedException(
+        'This account was registered with a password. Please sign in with your email and password.',
+      );
+    }
+
     if (!user) {
       user = await this.prisma.user.create({
         data: {
