@@ -135,7 +135,7 @@ kanban-task-management/
 ### Step 1: Clone Repository
 ```bash
 git clone https://github.com/memonriyaz/Task-Management-System
-cd kanban-task-management
+cd Task-Management-System
 ```
 
 ---
