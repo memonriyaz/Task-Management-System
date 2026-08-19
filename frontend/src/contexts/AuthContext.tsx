@@ -64,10 +64,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password?: string) => {
     try {
       const res = await api.login(email, password);
+      api.setToken(res.accessToken);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kanban_token', res.accessToken);
+        localStorage.setItem('kanban_user', JSON.stringify(res.user));
+      }
       setUser(res.user);
       setToken(res.accessToken);
-      localStorage.setItem('kanban_token', res.accessToken);
-      localStorage.setItem('kanban_user', JSON.stringify(res.user));
     } catch (err) {
       console.error('Failed to login:', err);
       throw err;
@@ -77,10 +80,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const loginAsGuest = async () => {
     try {
       const res = await api.guestLogin();
+      api.setToken(res.accessToken);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kanban_token', res.accessToken);
+        localStorage.setItem('kanban_user', JSON.stringify(res.user));
+      }
       setUser(res.user);
       setToken(res.accessToken);
-      localStorage.setItem('kanban_token', res.accessToken);
-      localStorage.setItem('kanban_user', JSON.stringify(res.user));
     } catch (err) {
       console.error('Failed to login as guest:', err);
       throw err;
@@ -95,10 +101,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   ) => {
     try {
       const res = await api.loginGoogle({ email, name, avatar, credential });
+      api.setToken(res.accessToken);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('kanban_token', res.accessToken);
+        localStorage.setItem('kanban_user', JSON.stringify(res.user));
+      }
       setUser(res.user);
       setToken(res.accessToken);
-      localStorage.setItem('kanban_token', res.accessToken);
-      localStorage.setItem('kanban_user', JSON.stringify(res.user));
     } catch (err) {
       console.error('Failed to login with Google:', err);
       throw err;

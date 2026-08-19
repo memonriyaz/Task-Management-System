@@ -267,14 +267,23 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const fetchData = useCallback(async () => {
     if (!token) return;
+    api.setToken(token);
     try {
       setIsLoading(true);
 
-      const [wsList, boardsData, projectsData] = await Promise.all([
+      let [wsList, boardsData, projectsData] = await Promise.all([
         api.getWorkspaces().catch(() => []),
         api.getBoards().catch(() => []),
         api.getProjects().catch(() => []),
       ]);
+
+      if (wsList.length === 0) {
+        try {
+          const wsName = user?.name && user.name !== 'User' ? `${user.name}'s Workspace` : 'My Workspace';
+          const newWs = await api.createWorkspace({ name: wsName });
+          if (newWs) wsList = [newWs];
+        } catch {}
+      }
 
       setWorkspaces(wsList);
 
@@ -285,6 +294,21 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           }
           return wsList[0].id;
         });
+      }
+
+      if (boardsData.length === 0) {
+        try {
+          const newBoard = await api.createBoard({
+            name: 'Tasks',
+            columns: [
+              { name: 'To Do', color: '#49C4E5' },
+              { name: 'Doing', color: '#8471F2' },
+              { name: 'Completed', color: '#67E2AE' },
+              { name: 'On Hold', color: '#FF5722' },
+            ],
+          });
+          if (newBoard) boardsData = [newBoard];
+        } catch {}
       }
 
       setBoards(boardsData);
@@ -305,7 +329,7 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     } finally {
       setIsLoading(false);
     }
-  }, [token]);
+  }, [token, user]);
 
   useEffect(() => {
     if (token) {
@@ -330,8 +354,10 @@ export const BoardProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }
 
   const rawActiveBoard =
-    scopedBoards.find((b) => b.id === activeBoardId) ||
-    scopedBoards[0] ||
+    (scopedBoards.length > 0
+      ? scopedBoards.find((b) => b.id === activeBoardId) || scopedBoards[0]
+      : null) ||
+    boards.find((b) => b.id === activeBoardId) ||
     (boards.length > 0 ? boards[0] : null);
 
   const activeBoard = rawActiveBoard

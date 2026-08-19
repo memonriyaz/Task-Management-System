@@ -82,7 +82,18 @@ export const ListView: React.FC = () => {
     );
   }
 
-  if (!activeBoard || !activeBoard.columns) return null;
+  if (!activeBoard || !activeBoard.columns || activeBoard.columns.length === 0) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center animate-in fade-in">
+        <h3 className="text-[17px] font-bold text-gray-900 dark:text-white mb-1">
+          No Columns Found
+        </h3>
+        <p className="text-[13px] text-gray-500 max-w-sm mb-5">
+          This workspace board does not have any active columns yet.
+        </p>
+      </div>
+    );
+  }
 
   const toggleGroup = (colId: string) => {
     setCollapsedGroups((prev) => ({ ...prev, [colId]: !prev[colId] }));

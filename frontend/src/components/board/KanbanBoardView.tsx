@@ -71,7 +71,29 @@ export const KanbanBoardView: React.FC = () => {
     );
   }
 
-  if (!activeBoard || !activeBoard.columns) return null;
+  if (!activeBoard || !activeBoard.columns || activeBoard.columns.length === 0) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center p-8 text-center animate-in fade-in">
+        <div className="w-14 h-14 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-400 mb-4">
+          <FolderKanban size={28} />
+        </div>
+        <h3 className="text-[17px] font-bold text-gray-900 dark:text-white mb-1">
+          No Columns Found
+        </h3>
+        <p className="text-[13px] text-gray-500 max-w-sm mb-5">
+          This workspace board does not have any active columns yet. Create your first task to get started.
+        </p>
+        <button
+          type="button"
+          onClick={() => setCreateTaskModalOpen(true)}
+          className="flex items-center gap-2 px-4 py-2 bg-black dark:bg-white text-white dark:text-black rounded-xl text-[13px] font-semibold hover:opacity-90 transition-opacity shadow-xs cursor-pointer"
+        >
+          <Plus size={15} />
+          <span>Create Task</span>
+        </button>
+      </div>
+    );
+  }
 
   const handleColumnDrop = async (targetColumnId: string) => {
     if (!draggingColumnId || draggingColumnId === targetColumnId) {

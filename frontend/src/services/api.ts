@@ -15,7 +15,22 @@ import {
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
 
 class ApiService {
+  private authToken: string | null = null;
+
+  public setToken(token: string | null) {
+    this.authToken = token;
+    if (typeof window !== 'undefined') {
+      if (token) {
+        localStorage.setItem('kanban_token', token);
+      } else {
+        localStorage.removeItem('kanban_token');
+        localStorage.removeItem('kanban_user');
+      }
+    }
+  }
+
   private getToken(): string | null {
+    if (this.authToken) return this.authToken;
     if (typeof window === 'undefined') return null;
     return localStorage.getItem('kanban_token');
   }
@@ -74,16 +89,24 @@ class ApiService {
   }
 
   async guestLogin(): Promise<AuthResponse> {
-    return this.request<AuthResponse>('/auth/guest', {
+    const res = await this.request<AuthResponse>('/auth/guest', {
       method: 'POST',
     });
+    if (res?.accessToken) {
+      this.setToken(res.accessToken);
+    }
+    return res;
   }
 
   async login(email: string, password?: string): Promise<AuthResponse> {
-    return this.request<AuthResponse>('/auth/login', {
+    const res = await this.request<AuthResponse>('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
+    if (res?.accessToken) {
+      this.setToken(res.accessToken);
+    }
+    return res;
   }
 
   async loginGoogle(data?: {
@@ -92,16 +115,21 @@ class ApiService {
     name?: string;
     avatar?: string;
   }): Promise<AuthResponse> {
-    return this.request<AuthResponse>('/auth/google', {
+    const res = await this.request<AuthResponse>('/auth/google', {
       method: 'POST',
       body: JSON.stringify(data || {}),
     });
+    if (res?.accessToken) {
+      this.setToken(res.accessToken);
+    }
+    return res;
   }
 
   async logout(): Promise<void> {
+    this.setToken(null);
     return this.request<void>('/auth/logout', {
       method: 'POST',
-    });
+    }).catch(() => {});
   }
 
   async getMe(): Promise<User & { boards: Board[]; projects: Project[] }> {
